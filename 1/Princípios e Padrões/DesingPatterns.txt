@@ -48,7 +48,11 @@ processador.ProcessarExame(exame); //"Exame de sangue aprovado!"
 Problemas sao: 
 
 - Muitos if/else, sendo inviavel manter
-- Violação de um dos principios SOLID, o "O"..., pois ao adicionar outro tipo de exame, ira precisar alterar a Class ProcessadorExame
+
+- Violação de dois dos principios SOLID:
+S - Single Responsibility Principle: Esse metodo tem mais de um motivo de para mudar (lógica de aprovação    de Sangue, Raio-X, Urina)
+O - Open Closed Principle: ao adicionar um novo tipo de exame, é necessário alterar o código do ProcessadorExame, em vez de apenas estender.
+
 - Mistura de responsabilidades, pois decide regras e processa ao mesmo tempo
 
 >>Ex com<<
@@ -123,5 +127,11 @@ processador.Processar(exame); // Saída: "Raio-X aprovado!"
 processador.SetEstrategia(new AprovaExameUrina());
 processador.Processar(exame); // Saída: "Exame de urina aprovado!"
 
-Pontos positivos: O Strategy Pattern transforma um código rígido e cheio de condicionais em um código limpo, flexível e extensível, seguindo princípios SOLID.
+>>Pontos positivos<<
+
+-Remove condicionais complexas (if/else)
+-Facilita a extensão do sistema (novo exame = nova estratégia)
+-Cada estratégia é testável isoladamente
+-O ProcessadorExame segue SRP: sua única responsabilidade é delegar a execução da estratégia
+-Código limpo, flexível e extensível, seguindo princípios SOLID
 
