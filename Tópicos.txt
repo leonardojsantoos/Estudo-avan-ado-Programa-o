@@ -1,0 +1,8 @@
+1. Princípios e Padrões: 
+Solid, Desing Patterns Gof, Domain-Driven Desing (DDD).
+
+2. Arquitetura de Estilos de Comunicação: 
+Arquitetura limpa (Clean Architecture), CQRS, Event-Driven Architecture (EDA), Microserviços.
+
+3. Tópicos Avançados de .NET
+Performace, Entity Core Avançado, Segurança.
