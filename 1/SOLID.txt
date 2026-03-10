@@ -1,0 +1,75 @@
+SOLID:
+
+O nome "SOLID" representa os cinco princípios que facilitam o processo de desenvolvimento, o que facilita a manutenção e o crescimento do software.
+
+------------------------------------------------------------------------------------------------------------
+
+S - Single Responsibility Principle (Princípio da Responsabilidade Única):
+
+No SRP, Uma classe, componente, entidade ou função deve ter apenas uma única responsabilidade, ou seja, deve ter apenas um motivo para mudar. Dentro desse principio, cada responsabilidade do sistema deve ser atribuída a uma entidade específica que execute somente uma tarefa. Dessa forma, as entidades se tornam independentes e bem definidas, facilitando o reaproveitamento do código, a manutenção, a realização de testes e o crescimento do sistema, além de ajudar a reduzir bugs no futuro.
+
+Ex sem SRP:
+
+class Cliente {
+
+    void cadastrarCliente() {
+        // lógica de cadastro
+    }
+
+    void salvarNoBanco() {
+        // código de acesso ao banco
+    }
+
+    void enviarEmailBoasVindas() {
+        // envio de email
+    }
+}
+
+Essa classe tem varias responsabilidades: Cadastrar, Salvar no banco e enviar email. Se a regra de cadastro ou o serviço de email mudar, a classe Cliente vai precisar mudar, indo contra as regras do principio.
+
+Com SRP:
+
+// representa o cliente (entidade)
+class Cliente {
+    String nome;
+    String email;
+}
+
+class ClienteRepository {
+
+    void salvar(Cliente cliente) {
+        // salva no banco
+    }
+
+}
+
+class ClienteService {
+
+    void cadastrarCliente(Cliente cliente) {
+        // regra de negócio
+    }
+
+}
+
+class EmailService {
+
+    void enviarBoasVindas(Cliente cliente) {
+        // envio de email
+    }
+
+}
+
+Isso sim segue o principio.
+
+------------------------------------------------------------------------------------------------------------
+
+O - Open/Closed Principle (Princípio Aberto/Fechado):
+
+
+L - Liskov Substitution Principle (Princípio da Substituição de Liskov)
+I - Interface Segregation Principle (Princípio da Segregação de Interface)
+D - Dependency Inversion Principle (Princípio da Inversão de Dependência)
+
+
+
+
