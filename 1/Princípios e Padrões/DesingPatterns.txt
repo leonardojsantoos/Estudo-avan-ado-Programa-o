@@ -1,0 +1,127 @@
+>>O que é design Pattern?<<
+
+Um padrão de design é uma solução comprovada para problemas recorrentes em software, que pode ser aplicada várias vezes de forma consistente, mantendo o código limpo, flexível e fácil de manter.
+
+Ele funciona como um modelo pré-fabricado que você pode adaptar ao seu contexto. Um pattern não é código pronto para copiar e colar, mas sim um guia para estruturar classes, objetos e suas interações de forma eficiente e organizada.
+
+Em outras palavras, padrões de design são soluções típicas para problemas comuns no desenvolvimento de software, que ajudam a evitar reinventar a roda e facilitam a manutenção e extensão do sistema.
+
+>>Strategy<<
+
+O Strategy é um padrão de projeto comportamental que permite definir uma família de algoritmos, encapsular cada um deles em uma classe separada e tornar esses algoritmos intercambiáveis em tempo de execução.
+
+Com isso, o sistema pode alterar o comportamento de um objeto sem modificar seu código, facilitando a extensão, manutenção e reutilização do software.
+
+>>Ex sem Strategy<<
+
+Contexto: Imagine um sistema que aprova diferentes tipos de exames
+
+public class ProcessadorExame
+{
+    public void ProcessarExame(Exame exame)
+    {
+        if (exame.Tipo == "Sangue")
+        {
+            Console.WriteLine("Exame de sangue aprovado!");
+        }
+        else if (exame.Tipo == "RaioX")
+        {
+            Console.WriteLine("Raio-X aprovado!");
+        }
+        else if (exame.Tipo == "Urina")
+        {
+            Console.WriteLine("Exame de urina aprovado!");
+        }
+    }
+}
+
+public class Exame
+{
+    public string Tipo { get; set; }
+}
+
+//Uso
+var exame = new Exame { Tipo = "Sangue" };
+var processador = new ProcessadorExame();
+processador.ProcessarExame(exame); //"Exame de sangue aprovado!"
+
+Problemas sao: 
+
+- Muitos if/else, sendo inviavel manter
+- Violação de um dos principios SOLID, o "O"..., pois ao adicionar outro tipo de exame, ira precisar alterar a Class ProcessadorExame
+- Mistura de responsabilidades, pois decide regras e processa ao mesmo tempo
+
+>>Ex com<<
+
+//interface
+public interface IAprovaExame
+{
+    void Aprovar(Exame exame);
+}
+
+//Classes
+public class AprovaExameSangue : IAprovaExame
+{
+    public void Aprovar(Exame exame)
+    {
+        Console.WriteLine("Exame de sangue aprovado!");
+    }
+}
+
+public class AprovaRaioX : IAprovaExame
+{
+    public void Aprovar(Exame exame)
+    {
+        Console.WriteLine("Raio-X aprovado!");
+    }
+}
+
+public class AprovaExameUrina : IAprovaExame
+{
+    public void Aprovar(Exame exame)
+    {
+        Console.WriteLine("Exame de urina aprovado!");
+    }
+}
+
+//Contexto
+public class ProcessadorExame
+{
+    private IAprovaExame estrategia;
+
+    public ProcessadorExame(IAprovaExame estrategia)
+    {
+        this.estrategia = estrategia;
+    }
+
+    public void Processar(Exame exame)
+    {
+        estrategia.Aprovar(exame);
+    }
+
+    public void SetEstrategia(IAprovaExame novaEstrategia)
+    {
+        estrategia = novaEstrategia;
+    }
+}
+
+//Domain
+public class Exame
+{
+    public string Nome { get; set; }
+}
+
+//Uso
+Exame exame = new Exame { Nome = "Hemograma" };
+
+ProcessadorExame processador = new ProcessadorExame(new AprovaExameSangue());
+processador.Processar(exame); // Saída: "Exame de sangue aprovado!"
+
+processador.SetEstrategia(new AprovaRaioX());
+processador.Processar(exame); // Saída: "Raio-X aprovado!"
+
+processador.SetEstrategia(new AprovaExameUrina());
+processador.Processar(exame); // Saída: "Exame de urina aprovado!"
+
+Pontos positivos: O Strategy Pattern transforma um código rígido e cheio de condicionais em um código limpo, flexível e extensível, seguindo princípios SOLID.
+
